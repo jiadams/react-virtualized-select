@@ -1,7 +1,4 @@
 general:
-  branches:
-    ignore:
-      - gh-pages
 machine:
   node:
-    version: v5.1.0
+    version: v10.13.0

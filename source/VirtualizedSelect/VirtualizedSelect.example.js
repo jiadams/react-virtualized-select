@@ -1,3 +1,5 @@
+import '@babel/polyfill'
+
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Creatable } from 'react-select'
@@ -149,7 +151,10 @@ export default class VirtualizedSelectExample extends Component {
           optionHeight={({ option }) => option.type === 'header' ? 25 : 35}
           optionRenderer={NameOptionRenderer}
           options={nameData}
-          ref={(ref) => this._customOptionHeightsSelect = ref}
+          ref={(ref) => {
+            this._customOptionHeightsSelect = ref
+            return this._customOptionHeightsSelect
+          }}
           searchable={searchable}
           simpleValue
           value={selectedName}

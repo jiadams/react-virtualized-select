@@ -1,5 +1,5 @@
 // Polyfill a full ES6 environment
-import 'babel-polyfill'
+import '@babel/polyfill'
 
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
@@ -42,9 +42,6 @@ class Application extends Component {
 }
 
 ReactDOM.render(
-  <Application/>,
+  <Application />,
   document.getElementById('root')
 )
-
-// Import and attach the favicon
-document.querySelector('[rel="shortcut icon"]').href = require('file!./favicon.png')

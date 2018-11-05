@@ -8,7 +8,6 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
 
 export default class VirtualizedSelect extends Component {
-
   static propTypes = {
     async: PropTypes.bool,
     listProps: PropTypes.object,

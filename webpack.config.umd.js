@@ -1,6 +1,7 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const webpack = require('webpack')
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   devtool: 'source-map',
@@ -8,7 +9,7 @@ module.exports = {
     'react-virtualized-select': './source/index.js'
   },
   output: {
-    path: 'dist/umd',
+    path: path.join(__dirname, 'dist/umd'),
     filename: '[name].js',
     libraryTarget: 'umd',
     library: 'VirtualizedSelect'
@@ -27,30 +28,44 @@ module.exports = {
       root: 'ReactDOM'
     }
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   plugins: [
-    new ExtractTextPlugin('../styles.css', {
-      allChunks: false,
-      beautify: true,
-      mangle: false
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: true,
-      comments: true,
-      mangle: false
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"'
     })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
-        include: path.join(__dirname, 'source')
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader' }
+        ]
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css-loader!autoprefixer-loader?{browsers:["last 2 version", "Firefox 15"]}'),
-        include: path.join(__dirname, 'source')
-
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ]
       }
     ]
   }

@@ -2,79 +2,46 @@
   "env": {
     "commonjs": {
       "presets": [
-        "es2015",
-        "react",
-        "stage-0"
+        "@babel/preset-env",
+        "@babel/preset-react",
       ]
     },
     "development": {
-      "plugins": [
-        "typecheck",
-        [
-          "react-transform",
-          {
-            "transforms": [
-              {
-                "transform": "react-transform-hmr",
-                "imports": [
-                  "react"
-                ],
-                "locals": [
-                  "module"
-                ]
-              },
-              {
-                "transform": "react-transform-catch-errors",
-                "imports": [
-                  "react",
-                  "redbox-react"
-                ]
-              }
-            ]
-          }
-        ]
-      ],
       "presets": [
-        "es2015",
-        "react",
-        "stage-0"
+        "@babel/preset-env",
+        "@babel/preset-react",
       ]
     },
     "es": {
       "plugins": [
-        "transform-runtime"
+        "@babel/plugin-transform-runtime"
       ],
       "presets": [
-        "es2015-rollup",
-        "react",
-        "stage-0"
+        "@babel/preset-env",
+        "@babel/preset-react",
       ]
     },
     "production": {
       "comments": false,
       "plugins": [
-        "transform-react-inline-elements",
-        "transform-runtime"
+        "@babel/plugin-transform-react-inline-elements",
+        "@babel/plugin-transform-runtime"
       ],
       "presets": [
-        "es2015",
-        "react",
-        "stage-0"
+        "@babel/preset-env",
+        "@babel/preset-react",
       ]
     },
     "test": {
       "comments": false,
-      "plugins": [
-        "__coverage__"
-      ],
       "presets": [
-        "es2015",
-        "react",
-        "stage-0"
+        "@babel/preset-env",
+        "@babel/preset-react",
       ]
     }
   },
   "plugins": [
-    "transform-decorators-legacy"
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-export-default-from",
   ]
 }

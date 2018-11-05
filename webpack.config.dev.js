@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 
@@ -9,8 +8,8 @@ module.exports = {
     demo: './source/demo/Application'
   },
   output: {
-    path: 'build',
-    filename: '/static/[name].js'
+    path: path.join(__dirname, 'build/static'),
+    filename: '[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -18,30 +17,23 @@ module.exports = {
       inject: true,
       template: './index.html'
     }),
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
-        include: path.join(__dirname, 'source')
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css?modules&importLoaders=1', 'postcss'],
-        include: path.join(__dirname, 'source')
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css?importLoaders=1'],
-        include: path.join(__dirname, 'styles.css')
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       }
     ]
-  },
-  postcss: function () {
-    return [autoprefixer]
   },
   devServer: {
     contentBase: 'build',

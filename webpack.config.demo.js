@@ -1,6 +1,7 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-const webpack = require('webpack')
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   devtool: 'source-map',
@@ -11,16 +12,36 @@ module.exports = {
     path: path.join(__dirname, 'build/static'),
     filename: '[name].js'
   },
+  performance: {
+    hints: false
+  },
+  optimization: {
+    flagIncludedChunks: false,
+    occurrenceOrder: false,
+    sideEffects: false,
+    usedExports: false,
+    concatenateModules: false,
+    splitChunks: {
+      hidePathInfo: false,
+      minSize: 10000,
+      maxAsyncRequests: Infinity,
+      maxInitialRequests: Infinity
+    },
+    noEmitOnErrors: false,
+    checkWasmTypes: false,
+    minimize: false
+  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: true,
       template: './index.html'
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
     })
   ],
   module: {
@@ -36,7 +57,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader']
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ]
       }
     ]
   },

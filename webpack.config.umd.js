@@ -1,6 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
-const webpack = require('webpack')
 const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
@@ -45,9 +44,6 @@ module.exports = {
       // both options are optional
       filename: devMode ? '[name].css' : '[name].[hash].css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
     })
   ],
   module: {

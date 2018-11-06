@@ -47,13 +47,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'babel-loader'
-          }
+          { loader: 'babel-loader' }
         ]
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: "babel-loader"
       },
       {
         test: /\.css$/,
@@ -64,6 +67,9 @@ module.exports = {
         ]
       }
     ]
+  },
+  stats: {
+    colors: true
   },
   devServer: {
     contentBase: 'build',
